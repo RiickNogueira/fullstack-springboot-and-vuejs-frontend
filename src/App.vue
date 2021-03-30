@@ -4,7 +4,7 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title"> FullStack App </v-list-item-title>
-          <v-list-item-subtitle> Menu </v-list-item-subtitle>
+          <v-list-item-subtitle> Spring Boot + Vue.JS </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -28,7 +28,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary" dark> </v-app-bar>
+    <v-app-bar app color="primary"> </v-app-bar>
 
     <v-main>
       <v-container fluid>
