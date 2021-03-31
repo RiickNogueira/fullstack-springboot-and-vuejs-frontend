@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <form @submit.prevent="submit">
+      <v-toolbar flat>
+        <v-toolbar-title>Editar Cargo</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn type="submit" color="primary" class="mx-2">
+          <v-icon left>mdi-content-save</v-icon>Atualizar
+        </v-btn>
+
+        <v-btn @click.prevent="voltar" class="mx-2">
+          <v-icon left>mdi-backburger</v-icon>Voltar
+        </v-btn>
+      </v-toolbar>
+
+      <validation-observer ref="observer">
+        <v-text-field v-model="form.id" label="Id" disabled></v-text-field>
+        <validation-provider v-slot="{ errors }" name="nome" rules="required">
+          <v-text-field
+            v-model="form.nome"
+            :error-messages="errors"
+            label="Nome"
+            required
+          ></v-text-field>
+        </validation-provider>
+      </validation-observer>
+    </form>
+
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import { required } from "vee-validate/dist/rules";
+
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode,
+} from "vee-validate";
+
+setInteractionMode("eager");
+
+extend("required", {
+  ...required,
+  message: "Campo {_field_} deve ser preenchido",
+});
+export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+  created() {
+    this.getCargo();
+  },
+  data() {
+    return {
+      loading: false,
+      form: { nome: "" },
+    };
+  },
+  methods: {
+    voltar() {
+      this.$router.push({ name: "cargos" });
+    },
+    async getCargo() {
+      this.loading = true;
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/cargos/${this.$route.params.id}`
+        );
+        this.form = { ...response.data };
+      } catch (e) {
+        alert(e.response.data.message);
+        this.voltar();
+      } finally {
+        this.loading = false;
+      }
+    },
+    async submit() {
+      try {
+        this.loading = true;
+        const response = await axios.put(
+          `http://localhost:3000/cargos/${this.$route.params.id}`,
+          this.form
+        );
+        if (response.status == 204) {
+          this.voltar();
+        }
+      } catch (e) {
+        alert(e.response.data.message);
+      } finally {
+        this.loading = false;
+      }
+      this.$refs.observer.validate();
+    },
+  },
+};
+</script>
