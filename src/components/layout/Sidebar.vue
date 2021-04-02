@@ -1,11 +1,5 @@
 <template>
-  <v-navigation-drawer
-    fixed
-    clipped
-    app
-    v-model="drawer"
-    mobile-break-point="800"
-  >
+  <v-navigation-drawer clipped app v-model="drawer" mobile-breakpoint="800">
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title"> FullStack App </v-list-item-title>
