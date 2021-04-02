@@ -3,7 +3,7 @@
     <validation-observer ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="submit">
         <v-toolbar flat>
-          <v-toolbar-title>Novo Cargo</v-toolbar-title>
+          <v-toolbar-title>Novo Perfil</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn type="submit" :disabled="invalid" color="primary" class="mx-2">
             <v-icon left>mdi-content-save</v-icon>Salvar
@@ -14,17 +14,18 @@
           </v-btn>
         </v-toolbar>
 
-        <validation-provider v-slot="{ errors }" name="nome" rules="required">
-          <v-text-field
-            v-model="form.nome"
-            :error-messages="errors"
-            label="Nome"
-            required
-            class="pa-2"
-          ></v-text-field>
-        </validation-provider>
-      </form>
-    </validation-observer>
+        <validation-observer ref="observer">
+          <validation-provider v-slot="{ errors }" name="nome" rules="required">
+            <v-text-field
+              v-model="form.nome"
+              :error-messages="errors"
+              label="Nome"
+              required
+              class="pa-2"
+            ></v-text-field>
+          </validation-provider>
+        </validation-observer></form
+    ></validation-observer>
 
     <v-overlay :value="loading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -56,15 +57,15 @@ export default {
   },
   methods: {
     voltar() {
-      this.$router.push({ name: "cargos" });
+      this.$router.push({ name: "perfis" });
     },
     async submit() {
       try {
         this.loading = true;
-        const response = await axios.post(`${api}/cargos`, this.form);
+        const response = await axios.post(`${api}/perfis`, this.form);
         if (response.status == 201) {
           this.$toasted.global.defaultSuccess({
-            message: "Cargo criado com sucesso!",
+            message: "Perfil criado com sucesso!",
           });
           this.voltar();
         }

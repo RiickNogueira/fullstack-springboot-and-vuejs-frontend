@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="itens" class="elevation-1">
+    <v-data-table :headers="headers" :items="itens" :loading="loading">
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Cargos</v-toolbar-title>
@@ -15,9 +15,6 @@
           <v-icon small class="mr-2" @click.prevent="editar(item)">
             mdi-pencil
           </v-icon>
-          <!--v-icon small @click.prevent="confirmarExclusao(item)">
-            mdi-delete
-          </v-icon-->
         </td>
       </template>
     </v-data-table>
@@ -26,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import { api } from "@/global";
 
 export default {
   name: "Cargos",
@@ -47,11 +45,10 @@ export default {
     async buscarItens() {
       try {
         this.loading = true;
-        const response = await axios.get("http://localhost:3000/cargos");
+        const response = await axios.get(`${api}/cargos`);
         this.itens = response.data;
       } catch (e) {
-        alert("Falha na operação. Verificar erro no console.");
-        console.log(`Erro: ${e.data}`);
+        this.$toasted.global.defaultError(e.response.data);
       } finally {
         this.loading = false;
       }
@@ -61,9 +58,6 @@ export default {
     },
     editar(item) {
       this.$router.push({ name: "cargo-editar", params: { id: item.id } });
-    },
-    confirmarExclusao(item) {
-      console.log(item);
     },
   },
 };

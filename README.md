@@ -1,24 +1,24 @@
-# fullstack-springboot-and-vuejs-frontend
+# App Fullstack Spring Boot + Vue.js
 
-## Project setup
-```
-npm install
-```
+## _Frontend_
 
-### Compiles and hot-reloads for development
-```
+## Demo
+
+Veja rodando [clicando aqui](http://globo.com).
+
+## Requisitos
+
+| Requisito | Link para download                                                  |
+| --------- | ------------------------------------------------------------------- |
+| Node      | [https://nodejs.org/en/download/](https://nodejs.org/en/download/). |
+
+## Instalação e execução
+
+Faça download do projeto e execute os seguintes comandos na raiz
+
+```sh
+npm i
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+_Enjoy!_

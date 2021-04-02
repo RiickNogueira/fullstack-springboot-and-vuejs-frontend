@@ -3,10 +3,10 @@
     <validation-observer ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="submit">
         <v-toolbar flat>
-          <v-toolbar-title>Novo Cargo</v-toolbar-title>
+          <v-toolbar-title>Editar Perfil</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn type="submit" :disabled="invalid" color="primary" class="mx-2">
-            <v-icon left>mdi-content-save</v-icon>Salvar
+            <v-icon left>mdi-content-save</v-icon>Atualizar
           </v-btn>
 
           <v-btn @click.prevent="voltar" class="mx-2">
@@ -14,6 +14,12 @@
           </v-btn>
         </v-toolbar>
 
+        <v-text-field
+          v-model="form.id"
+          label="Id"
+          disabled
+          class="pa-2"
+        ></v-text-field>
         <validation-provider v-slot="{ errors }" name="nome" rules="required">
           <v-text-field
             v-model="form.nome"
@@ -25,7 +31,6 @@
         </validation-provider>
       </form>
     </validation-observer>
-
     <v-overlay :value="loading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
@@ -48,6 +53,9 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
+  created() {
+    this.getPerfil();
+  },
   data() {
     return {
       loading: false,
@@ -56,15 +64,32 @@ export default {
   },
   methods: {
     voltar() {
-      this.$router.push({ name: "cargos" });
+      this.$router.push({ name: "perfis" });
+    },
+    async getPerfil() {
+      this.loading = true;
+      try {
+        const response = await axios.get(
+          `${api}/perfis/${this.$route.params.id}`
+        );
+        this.form = { ...response.data };
+      } catch (e) {
+        this.$toasted.global.defaultError(e.response.data);
+        this.voltar();
+      } finally {
+        this.loading = false;
+      }
     },
     async submit() {
       try {
         this.loading = true;
-        const response = await axios.post(`${api}/cargos`, this.form);
-        if (response.status == 201) {
+        const response = await axios.put(
+          `${api}/perfis/${this.$route.params.id}`,
+          this.form
+        );
+        if (response.status == 204) {
           this.$toasted.global.defaultSuccess({
-            message: "Cargo criado com sucesso!",
+            message: "Perfil atualizado com sucesso!",
           });
           this.voltar();
         }
