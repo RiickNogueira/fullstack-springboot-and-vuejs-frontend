@@ -21,4 +21,4 @@ npm i
 npm run serve
 ```
 
-_Enjoy!_
+_A API rodará na porta 8080. http://localhost:8080_
