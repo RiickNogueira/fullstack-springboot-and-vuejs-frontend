@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer fixed app mobile-breakpoint="0">
+  <v-navigation-drawer
+    fixed
+    clipped
+    app
+    v-model="drawer"
+    mobile-break-point="800"
+  >
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title"> FullStack App </v-list-item-title>
@@ -30,6 +36,19 @@
 
 <script>
 export default {
+  computed: {
+    drawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.$store.commit("toggleMenu", value);
+      },
+    },
+    roles() {
+      return this.$store.state.user.roles;
+    },
+  },
   data: () => ({
     items: [
       { title: "Cargos", icon: "mdi-view-dashboard", router: "cargos" },
