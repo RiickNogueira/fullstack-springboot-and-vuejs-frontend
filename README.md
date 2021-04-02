@@ -4,7 +4,7 @@
 
 ## Demo
 
-Veja rodando [clicando aqui](http://globo.com).
+Veja rodando [clicando aqui](https://riicknogueira.github.io/springboot-and-vuejs.github.io/).
 
 ## Requisitos
 
